@@ -20,6 +20,7 @@ namespace UsingUITest.UITests
 
 			return ConfigureApp
 				.iOS
+				.AppBundle("../../../iOS/bin/iPhoneSimulator/Debug/UsingUITestiOS.app")
 				.StartApp();
 		}
 	}

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace UsingUITest
@@ -15,10 +15,15 @@ namespace UsingUITest
 				Text = "Click me",
 				AutomationId = "MyButton"		// referenced in UITests
 			};
-			b.Clicked += (sender, e) => {
-				l.Text = "Was clicked";
+			b.Clicked += async (sender, e) =>
+			{
+				l.Text = "Before Task";
+				await HeavyTask();
+				l.Text = "During Task";
+				await HeavyTask();
+				l.Text = "After Task";
 			};
-
+			
 			l = new Label { 
 				Text = "Hello, Xamarin.Forms!",
 				AutomationId = "MyLabel"			// referenced in UITests
@@ -33,6 +38,11 @@ namespace UsingUITest
 				}
 			};
 		}
+
+		private Task HeavyTask() // simulate heavy background task
+		{
+			return Task.Delay(200);
+		}
 	}
 
 	/// <summary>
@@ -43,7 +53,7 @@ namespace UsingUITest
 	{
 		public App ()
 		{	
-			MainPage = new MyPage ();
+			MainPage = new NavigationPage(new MyPage ());
 		}
 	}
 
